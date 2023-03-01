@@ -7,10 +7,10 @@ const Bai2 = () => {
     { name: "123", email: '123Gmail.com' },
     { name: "456", email: '456@gmail.com' },
   ]);
-
+  const yourstyle={border:"1px solid black"}
   const onClick = () => {
     setUserList([
-      ...userList,
+      ...userList,  
       user
     ]);
 
@@ -33,15 +33,22 @@ const Bai2 = () => {
         <input name='email' value={user.email} onChange={onChange} />
         <button onClick={onClick}>Add</button>
       </div>
-
-      {userList.map((item) => {
+      <table>
+        <tr>
+          <th style={yourstyle}>Ho va ten</th>
+          <th style={yourstyle}>Email</th>
+        </tr>
+        {
+        userList.map((item) => {
         return (
-          <div>
-            <div>Ten cua hoc sinh: {item.name}</div>
-            <div>Email cua hoc sinh: {item.email}</div>
-          </div>
+          <tr>
+            <td style={yourstyle}>Your Name: {item.name}</td>
+            <td style={yourstyle} >Your Email: {item.email}</td>
+          </tr>
         );
       })}
+      </table>
+     
       
     </div>
   );
