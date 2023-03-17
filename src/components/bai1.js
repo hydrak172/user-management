@@ -1,4 +1,4 @@
-import {useState } from "react";
+import {useRef, useState } from "react";
 
 const App= ()=> {
   const [user,setUser]= useState({name:'K',email:'K@gmail.com'})
@@ -74,3 +74,12 @@ const App= ()=> {
 }
 
 export default App;
+
+
+// Cach viet react 
+//
+
+// useRef
+// react route 
+// redux 
+// layout cua du an route va redux

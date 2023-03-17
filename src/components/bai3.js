@@ -1,86 +1,92 @@
 import React from 'react';
-import { useState } from "react";
-const DEFAULT_USER=({name:'',email:'',phone:''}) //bien khong cap nhat va khong doi , chi de tham gia vao 1 so qua trinh lam viec cua code , vi tri nam ngay tren components cua minh vd tren const b3=()
+import { useState, useEffect, useMemo } from "react";
+import FormUser from "./FormUser";
+import TableUserList from "./TableUserList";
+
+const DEFAULT_USER = { name: "", email: "" };
+
 const Bai3 = () => {
-    
-    const [users, setUsers] = useState([]);
-    const [formData,setformData]=useState(DEFAULT_USER)
-    const yourstyle={border:"1px solid black",height:"10px",width:"141px"}
-  
-  const onChange = (e) => {
-    // const name=e.target.name
-    // const value=e.target.value
-    setformData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  };
+  const [formData, setFormData] = useState(DEFAULT_USER);
+  const [userList, setUserList] = useState([]);
+  // const [searchUserList, setSearchUserList] = useState([]);
+  const [keyword, setKeyword] = useState('');
+
+  // useEffect(() => {
+  //   if(keyword !== '') {
+  //     const newUserList = userList.filter((item) => {
+  //       return item.name.includes(keyword)||item.email.includes(keyword)
+  //     })
+
+  //     setSearchUserList(newUserList)
+  //   }
+  //   else {
+  //     setSearchUserList(userList)
+  //   }
+  // }, [keyword, userList])
+
+  const searchUserList = useMemo(() => {
+    if(keyword !== '') {
+      const newUserList = userList.filter((item) => {
+        return item.name.includes(keyword)||item.email.includes(keyword)
+      })
+
+      return newUserList
+    }
+    else {
+      return userList
+    }
+  }, [keyword, userList])
 
   const onClick = () => {
-    //edit input
-    if(formData.id){
-        const newUser=users.map((user)=>{
-            if(user.id===formData.id){
-                return formData
-            }
-            return user
-        })
+    if (formData.id) {
+      const newUserList = userList.map((item) => {
+        if (item.id === formData.id) {
+          return formData;
+        }
 
-        setUsers(newUser)
+        return item;
+      });
+
+      setUserList(newUserList);
+    } else {
+      setUserList([
+        ...userList,
+        {
+          id: Math.random(),
+          ...formData,
+        },
+      ]);
     }
-    //add new input
-    else{
-        setUsers([
-            ...users, 
-            {
-                id:Math.random(),
-                ...formData
-            }
-        ]);
-    }
-    setformData(DEFAULT_USER)
+
+    setFormData(DEFAULT_USER);
   };
 
-  
-  const onEdit=(selectedUser)=>{
-      setformData(selectedUser)
+  const onEdit = (item) => {
+    setFormData(item);
+  };
+
+  const onDelete = (item) => {
+    const newUserList = userList.filter((user) => {
+      return user.id !== item.id
+    })
+
+    setUserList(newUserList)
+  };
+
+  const onSearch = (e) => {
+    setKeyword(e.target.value)
   }
+
   return (
     <div>
-      <div>
-        <input name='name' value={formData.name} onChange={onChange} />
-        <input name='email' value={formData.email} onChange={onChange} />
-        <input name='phone' value={formData.phone} onChange={onChange} />
-        <button onClick={onClick}>Submit</button>
-      </div>
-      <table>
-        <tr>
-          <th style={yourstyle}> Id</th>
-          <th style={yourstyle}>Ho va ten</th>
-          <th style={yourstyle}>Email</th>
-          <th style={yourstyle}>Phone</th>
-        </tr>
-        {
-        users.map((item) => {
-        return (
-          <tr>
-            <td style={yourstyle}>Your Name: {item.id} </td>
-            <td style={yourstyle}>Your Name: {item.name}</td>
-            <td style={yourstyle} >Your Email: {item.email}</td>
-            <td style={yourstyle} >Your Phone: {item.phone}</td>
-            <td style={yourstyle} ><button onClick={()=>{onEdit(item)}}>Edit</button></td>
-          </tr>
-        );
-      })}
-      </table>
-     
-      
+      <FormUser formData={formData} setFormData={setFormData} onSubmit={onClick} />
+
+      <input value={keyword} onChange={onSearch} />
+
+      <TableUserList userList={searchUserList} onEdit={onEdit} onDelete={onDelete} />
     </div>
   );
 };
 
 export default Bai3;
-
-
-
 
