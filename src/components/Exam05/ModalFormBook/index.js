@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 
 import { Input, Modal, Form, Select } from "antd";
-import {PageNumber} from './style'
+import { PageNumber, NewForm } from './style'
 
 const TableList = (props) => {
     const [form] = Form.useForm()
@@ -27,15 +27,15 @@ const TableList = (props) => {
     return (
         <div>
             <Modal title="Add Book" open={props.isModalOpen} onOk={onSubmit} onCancel={handleCancel}>
-                <Form form={form} layout="vertical">
+                <NewForm form={form} layout="vertical">
                     <Form.Item
-                        name='Title'
+                        name='title'
                         label="Book Name"
                         rules={[{ required: true, message: 'Ten la du lieu bat buoc' }]}>
                         <Input placeholder='Sach Giao Khoa' />
                     </Form.Item>
                     <Form.Item
-                        name='Author'
+                        name='author'
                         label="Tac Gia"
                         rules={
                             [{ required: true, message: 'Tac Gia la du lieu bat buoc' },
@@ -43,9 +43,9 @@ const TableList = (props) => {
                         <Input placeholder='Khanh' />
                     </Form.Item>
                     <Form.Item
-                        name='Description'
+                        name='description'
                         label="Mieu ta sach"
-                        rules={[{ required: false, message: 'Mieu ta sach la du lieu bat buoc' },{ max: 2000, message: 'Mieu ta khong qua 2000 ki tu' }]}>
+                        rules={[{ required: false, message: 'Mieu ta sach la du lieu bat buoc' }, { max: 2000, message: 'Mieu ta khong qua 2000 ki tu' }]}>
                         <Input.TextArea placeholder='...' />
                     </Form.Item>
                     <Form.Item
@@ -60,14 +60,14 @@ const TableList = (props) => {
                         ]} />
                     </Form.Item>
                     <Form.Item
-                        name='NumberPage'
+                        name='page'
                         label="So trang"
                         rules={
                             [{ required: true, message: 'so trang la du lieu bat buoc' },
                             { type: 'number', message: 'Chi duoc nhap so' }]}>
                         <PageNumber placeholder='50' />
                     </Form.Item>
-                </Form>
+                </NewForm>
             </Modal>
         </div>
 

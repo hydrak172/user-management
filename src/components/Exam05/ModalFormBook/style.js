@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { InputNumber } from "antd"; 
+import { InputNumber, Form } from "antd";
 
-export const PageNumber=styled(InputNumber)`
+export const PageNumber = styled(InputNumber)`
     width:100%;
+`
+export const NewForm = styled(Form)`
+    border:1px solid #black;
 `

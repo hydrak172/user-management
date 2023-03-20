@@ -2,51 +2,51 @@ import React from "react";
 //book: title ,author,description,type,so trang 
 //tyle-componant
 //API
-import { Actions } from "./style";
-import { Table,Button } from "antd";
+import { ButtonAction, Actions } from "./style";
+import { Table, Button } from "antd";
 
 const TableList = (props) => {
 
   const columns = [
     {
       title: "Book Name ",
-      dataIndex: "Title",
-      key: "Title",
-      width:'10%'
+      dataIndex: "title",
+      key: "title",
+      width: '10%'
     },
     {
       title: "Tac Gia ",
-      dataIndex: "Author",
-      key: "Author",
-      width:'10%'
+      dataIndex: "author",
+      key: "author",
+      width: '10%'
     },
     {
       title: "Mieu ta sach",
-      dataIndex: "Description",
-      key: "Description",
+      dataIndex: "description",
+      key: "description",
 
     },
     {
       title: "Kieu Sach",
       dataIndex: "type",
       key: "type",
-      width:'10%'
+      width: '10%'
     },
     {
-        title: "So trang",
-        dataIndex: "NumberPage",
-        key: "NumberPage",
-        width:'5%'
+      title: "So trang",
+      dataIndex: "page",
+      key: "page",
+      width: '5%'
     },
     {
       title: "",
       dataIndex: "actions",
-      width:'10%',
+      width: '10%',
       render: (text, item) => {
         return (
           <Actions>
-            <Button onClick={() => { props.onEdit(item) }}>Edit {item.name}</Button>
-            <Button onClick={() => { props.onRemove(item) }}>Delete</Button>
+            <ButtonAction onClick={() => { props.onEdit(item.id) }}>Edit {item.name}</ButtonAction>
+            <ButtonAction onClick={() => { props.onRemove(item) }}>Delete</ButtonAction>
           </Actions>
         )
       }
@@ -54,7 +54,7 @@ const TableList = (props) => {
   ];
 
   return (
-    <div><Table dataSource={props.data} columns={columns} /></div>
+    <div><Table dataSource={props.dataSource} columns={columns} /></div>
   );
 };
 
