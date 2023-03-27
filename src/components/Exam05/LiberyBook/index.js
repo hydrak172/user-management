@@ -3,7 +3,7 @@ import React from "react";
 //tyle-componant
 //API
 import { ButtonAction, Actions } from "./style";
-import { Table, Button } from "antd";
+import { Table } from "antd";
 
 const TableList = (props) => {
 
@@ -45,8 +45,8 @@ const TableList = (props) => {
       render: (text, item) => {
         return (
           <Actions>
-            <ButtonAction onClick={() => { props.onEdit(item.id) }}>Edit {item.name}</ButtonAction>
-            <ButtonAction onClick={() => { props.onRemove(item) }}>Delete</ButtonAction>
+            <ButtonAction disabled={props.itemLoading} onClick={() => { props.onEdit(item.id) }}>Edit {item.name}</ButtonAction>
+            <ButtonAction disabled={props.itemLoading} onClick={() => { props.onDelete(item.id) }}>Delete</ButtonAction>
           </Actions>
         )
       }
@@ -54,7 +54,7 @@ const TableList = (props) => {
   ];
 
   return (
-    <div><Table dataSource={props.dataSource} columns={columns} /></div>
+    <div><Table loading={props.loading} dataSource={props.dataSource} columns={columns} /></div>
   );
 };
 

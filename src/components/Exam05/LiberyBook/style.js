@@ -23,7 +23,7 @@ export const ButtonAction = styled(Button)`
     }
 
     &:active ,&:focus{
-            background-color:green;
+            background-color:white;
             color:rgba(240, 46, 170, 0.8);
             border-color:rgba(240, 46, 170, 0.8);
     }

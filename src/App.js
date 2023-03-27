@@ -1,7 +1,7 @@
 import React from 'react';
-// import HomeWork2 from './HomeWork2/indexb3';
+// import Homework4 from './Homework4';
 // import { useState } from 'react';
-import Exam05 from './components/Exam05'
+import Exam06 from './components/Exam06'
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer } = Layout;
 const App = () => {
@@ -40,7 +40,7 @@ const App = () => {
           <Breadcrumb.Item>List</Breadcrumb.Item>
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
-        <Exam05/>
+        <Exam06 />
         <div
           className="site-layout-content"
           style={{
@@ -53,16 +53,16 @@ const App = () => {
       <Footer
         style={{
           textAlign: 'center',
-          textTransform:'uppercase',
+          textTransform: 'uppercase',
         }}
       >
         Ant Design ©2023 Created by Ant UED
       </Footer>
     </Layout>
 
-  ); 
+  );
   // return (
-  //   <div> <HomeWork2 /></div>
+  //   <div> <Homework4 /></div>
   // )
 };
 export default App;

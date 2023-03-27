@@ -3,19 +3,24 @@ import { useState } from "react";
 // import {Form,Button,Input} from 'antd'
 
 const HomeWork2 = () => {
-    const [formData, setFormData] = useState([]);
+    const [value, setValue] = useState([]);
+    const [tong, setTong] = useState(0);
     const onChange = (e) => {
-        // const name = e.target.name;
-        // const value = e.target.value;
-
-        setFormData([
-            formData,
-            e.target.value,
-        ])
+        const value = e.target.value;
+        setTong(value);
+        
+        let tong=0;
+        for(let i of value){
+            tong+=parseInt(i);
+        }
+        setTong(tong);
     }
 
     return (
-        <input name="name" value={formData} onChange={onChange} />
+        <div>
+            <input value={value} onChange={onChange}/>
+            <p>Tong day so da nhap vao la : {tong}</p>
+        </div>
     )
 }
 

@@ -6,6 +6,7 @@ import { useState, useMemo, useEffect } from "react";
 // import { Button } from "antd";
 import LiberyBook from './LiberyBook/index.js'
 import ModalFormBook from './ModalFormBook/index.js'
+import { Modal } from "antd";
 import { ButtonCreate, InputSeach, Search } from './style'
 import axios from "axios";
 
@@ -21,14 +22,18 @@ const TableList = (props) => {
   const [dataSource, setdataSource] = useState([
   ]);
   const [keyword, setKeyword] = useState('');
-
+  const [tableLoading,setTableLoading]=useState(false);
+  const [submitLoading,setsubmitLoading]=useState(false);
+  const [itemLoading,setitemLoading]=useState(false);
   useEffect(() => {
     fetchData()
   }, [])
 
   const fetchData = () => {
+    setTableLoading(true)
     axios.get('https://64146a1b9172235b86942daf.mockapi.io/book').then((res) => {
       setdataSource(res.data)
+      setTableLoading(false)
     });
   }
   //GET: LAY THONG TIN DU LIEU 
@@ -45,6 +50,25 @@ const TableList = (props) => {
   //   const res= await axios.get('https://64146a1b9172235b86942daf.mockapi.io/book')
   //    setdataSource(res.data)
   // }, [])       
+
+//GET
+//INPUT : URL 
+//OUTPUT: du lieu ma ban muon tim kiem hoac la rong 
+//E.g :qpi.example.com/products/{id},api.example.com/users?page=1&limit=10
+
+//POST : 
+//INPUT :url,data
+//OUTPUT : thuong thji tra ve du lieu vua duoc tao
+
+//PUT&PATCH
+//INPUT :url,data
+//OUTPUT : thuong thji tra ve du lieu VUA DUOC CAP NHAT 
+
+//DELETE
+//INPUT :url,data
+//OUTPUT : thuong thji tra ve du lieu VUA DUOC XOA /TRUE OR FALSE
+
+
   //timkiem sach
 
   const searchBook = useMemo(() => {
@@ -57,14 +81,22 @@ const TableList = (props) => {
   }, [keyword, dataSource])
 
   const onSubmit = ({ id, data }) => {
+    setsubmitLoading(true)
     if (id) {
       axios.put(`https://64146a1b9172235b86942daf.mockapi.io/book/${id}`, data).then((res) => {
-        fetchData()
+      setsubmitLoading(false) 
+      setIsModalOpen(false);
+      setFormData(DEFAULT_BOOK) 
+      fetchData()
       })
     }
     else {
       axios.post('https://64146a1b9172235b86942daf.mockapi.io/book', data).then((res) => {
+        setsubmitLoading(false) 
+        setIsModalOpen(false);
+        setFormData(DEFAULT_BOOK)   
         fetchData()
+        
       })
       // // setdataSource([
       // //   ...dataSource,
@@ -74,8 +106,6 @@ const TableList = (props) => {
       // //   },
       // ]);
     }
-    setIsModalOpen(false);
-    setFormData(DEFAULT_BOOK)
   }
   const onChange = (e) => {
     // const name = e.target.name;
@@ -91,27 +121,31 @@ const TableList = (props) => {
     setIsModalOpen(true);
   }
   const onEdit = (id) => {
+    setitemLoading(true)
     axios
       .get(`https://64146a1b9172235b86942daf.mockapi.io/book/${id}`)
       .then((res) => {
         setFormData(res.data)
+        setitemLoading(false)
         setIsModalOpen(true);
       });
-
   }
-  const onDelete = (item) => {
-    const newDataSource = dataSource.filter((user) => {
-      return user.id !== item.id
+  const onDelete = (id) => {
+    setitemLoading(true)
+    Modal.confirm({
+      title: 'Ban chac chan muon xoa du lieu nay chu ?',
+      content: 'Du lieu nay se bien mat vinh vien',
+      onOk:()=>{
+        axios
+      .delete(`https://64146a1b9172235b86942daf.mockapi.io/book/${id}`)
+      .then((res) => {
+        setitemLoading(false)
+        fetchData()
+      });
+      }
     })
-    // modal.confirm({
-    //   title: 'Ban chac chan muon xoa du lieu nay chu ?',
-    //   content: 'Du lieu nay se bien mat vinh vien'
-    //   onOk:()=>{
-    //     debugger
-    //   }
-    // }
-    setdataSource(newDataSource)
   }
+  // setdataSource(newDataSource)
   // 
   const onSearch = (e) => {
     setKeyword(e.target.value)
@@ -130,10 +164,11 @@ const TableList = (props) => {
         onSubmit={onSubmit}
         onChange={onChange}
         formData={formData}
+        loading={submitLoading}
       >
       </ModalFormBook>
       <div>
-        <LiberyBook dataSource={searchBook} onEdit={onEdit} onRemove={onDelete} />
+        <LiberyBook itemLoading={itemLoading} loading={tableLoading} dataSource={searchBook} onEdit={onEdit} onDelete={onDelete} />
       </div>
     </div>
   );
